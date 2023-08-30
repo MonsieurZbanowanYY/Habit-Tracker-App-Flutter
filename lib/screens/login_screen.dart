@@ -113,7 +113,7 @@ class SignInCustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SignInButton(
       buttonType: type,
-      buttonSize: ButtonSize.large,
+      buttonSize: ButtonSize.medium,
       onPressed: onPressed,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
@@ -222,4 +222,4 @@ class AuthDeclaration extends StatelessWidget {
 }
 
 // Martin Gogołowicz || SobGOG || 30.08.2023
-// Last edit: Martin Gogołowicz || SobGOG || 30.08.2023
+// Last edit: Martin Gogołowicz || SobGOG || 31.08.2023
