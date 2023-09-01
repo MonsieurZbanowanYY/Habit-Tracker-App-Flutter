@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 ThemeData lightModeTheme = FlexThemeData.light(
   colors: const FlexSchemeColor(
-    primary: Color(0xff1957f5),
-    primaryContainer: Color(0xff0078ff),
-    secondary: Color(0xff9575cd),
-    secondaryContainer: Color(0xff502ca7),
+    primary: Color(0xff9575cd),
+    primaryContainer: Color(0xff502ca7),
+    secondary: Color(0xff1957f5),
+    secondaryContainer: Color(0xff0078ff),
     tertiary: Color(0xff7d57be),
     tertiaryContainer: Color(0xff4836aa),
     appBarColor: Color(0xff502ca7),
@@ -57,10 +57,10 @@ ThemeData lightModeTheme = FlexThemeData.light(
 );
 ThemeData darkModeTheme = FlexThemeData.dark(
   colors: const FlexSchemeColor(
-    primary: Color(0xff1957f5),
-    primaryContainer: Color(0xff0078ff),
-    secondary: Color(0xff9575cd),
-    secondaryContainer: Color(0xff502ca7),
+    primary: Color(0xff9575cd),
+    primaryContainer: Color(0xff502ca7),
+    secondary: Color(0xff1957f5),
+    secondaryContainer: Color(0xff0078ff),
     tertiary: Color(0xff7d57be),
     tertiaryContainer: Color(0xff4836aa),
     appBarColor: Color(0xff502ca7),

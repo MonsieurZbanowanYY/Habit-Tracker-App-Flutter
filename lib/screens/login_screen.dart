@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sign_button/sign_button.dart';
 import 'package:habitmate/config/constraint.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 final GetIt getIt = GetIt.instance;
 final tr = getIt.get<AppLocalizations>();
+const List<Widget> screenContent = [
+  WelcomeToText(),
+  SizedBox(
+    height: 100,
+  ),
+  BrandQuoteText(),
+  SignInButtons(),
+  AuthDeclaration(),
+];
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -15,20 +25,16 @@ class LoginScreen extends StatelessWidget {
     ThemeData themeData = Theme.of(context);
     return Scaffold(
       backgroundColor: themeData.colorScheme.background,
-      body: const SafeArea(
+      body: SafeArea(
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              WelcomeToText(),
-              SizedBox(
-                height: 100,
-              ),
-              BrandQuoteText(),
-              SignInButtons(),
-              AuthDeclaration(),
-            ],
-          ),
+          child: MediaQuery.of(context).size.height > 500
+              ? const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: screenContent,
+                )
+              : ListView(
+                  children: screenContent,
+                ),
         ),
       ),
     );
@@ -150,7 +156,10 @@ class SignInButtons extends StatelessWidget {
         ),
         Padding(
           padding: defaultTopPadding,
-          child: GestureDetector(
+          child: InkWell(
+            onTap: () {
+              context.go('/home');
+            },
             child: Text(
               tr.or_sign_in_later,
               style: themeData.textTheme.bodyMedium?.copyWith(
@@ -222,4 +231,4 @@ class AuthDeclaration extends StatelessWidget {
 }
 
 // Martin Gogołowicz || SobGOG || 30.08.2023
-// Last edit: Martin Gogołowicz || SobGOG || 31.08.2023
+// Last edit: Martin Gogołowicz || SobGOG || 01.09.2023

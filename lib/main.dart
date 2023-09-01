@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:habitmate/config/theme_data.dart';
+import 'package:habitmate/screens/home_screen.dart';
 import 'package:habitmate/screens/login_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -26,10 +27,8 @@ class AppState extends State<App> {
 
   final _router = GoRouter(
     routes: [
-      GoRoute(
-        path: '/',
-        builder: (context, state) => const LoginScreen(),
-      ),
+      GoRoute(path: '/', builder: (context, state) => const LoginScreen()),
+      GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
     ],
   );
 
@@ -53,10 +52,14 @@ class AppState extends State<App> {
       ],
       title: 'Triply',
       builder: (context, child) {
+        Locale locale = Localizations.localeOf(context);
         AppLocalizations tr = AppLocalizations.of(context)!;
         final GetIt getIt = GetIt.I;
         if (!getIt.isRegistered<AppLocalizations>()) {
           getIt.registerSingleton<AppLocalizations>(tr);
+        }
+        if (!getIt.isRegistered<Locale>()) {
+          getIt.registerSingleton<Locale>(locale);
         }
         return MediaQuery(
           data: MediaQuery.of(context)
@@ -72,4 +75,4 @@ class AppState extends State<App> {
 // https://www.linkedin.com/company/sobgog/
 // https://www.linkedin.com/in/martin-gogolowicz/
 // Martin Gogołowicz || SobGOG || 30.08.2023
-// Last edit: Martin Gogołowicz || SobGOG || 30.08.2023
+// Last edit: Martin Gogołowicz || SobGOG || 01.09.2023
