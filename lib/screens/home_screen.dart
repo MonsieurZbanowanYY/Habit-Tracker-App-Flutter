@@ -1,7 +1,12 @@
+import 'dart:math';
+
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habitmate/blocs/selected_day_cubit.dart';
 import 'package:habitmate/config/constraint.dart';
+import 'package:habitmate/models/habit_model.dart';
+import 'package:habitmate/models/selected_day_model.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:get_it/get_it.dart';
@@ -12,6 +17,9 @@ final tr = getIt.get<AppLocalizations>();
 final locale = getIt.get<Locale>();
 const Radius defaultBorderRadius = Radius.circular(15);
 List events = [
+  DateTime.utc(2023, 8, 3),
+  DateTime.utc(2023, 8, 15),
+  DateTime.utc(2023, 8, 28),
   DateTime.utc(2023, 9, 1),
   DateTime.utc(2023, 9, 2),
   DateTime.utc(2023, 9, 4),
@@ -65,20 +73,35 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Padding(
               padding: defaultHorizontalViewPadding,
               child: ListView(
-                children: const [
-                  CalendarHabits(),
-                  HabitItem(
-                    title: 'Read a book',
-                    icon: Icons.book,
-                    description: 'Finished',
-                    iconDescription: Icons.check_circle,
-                  ),
-                  // go for a walk
-                  HabitItem(
-                    title: 'Go for a walk',
-                    icon: Icons.directions_walk,
-                    description: 'New',
-                    iconDescription: Icons.star,
+                children: [
+                  const CalendarHabits(),
+                  BlocBuilder<SelectedDayCubit, SelectedDay>(
+                    builder: (context, selectedDay) {
+                      List<Habit> habitsToShow = selectedDay.habits;
+                      habitsToShow = habitsToShow.where((element) {
+                        if (element.onlyOn.isEmpty) {
+                          return true;
+                        }
+                        return element.onlyOn
+                            .contains(selectedDay.selectedDay.weekday);
+                      }).toList();
+                      return ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: habitsToShow.length,
+                        itemBuilder: (context, index) {
+                          Habit habit = habitsToShow[index];
+                          return HabitItem(
+                            title: habit.name,
+                            icon: habit.icon,
+                            description: habit.isDone ? tr.finished : tr.to_do,
+                            iconDescription:
+                                habit.isDone ? Icons.check_circle : Icons.star,
+                            index: index,
+                          );
+                        },
+                      );
+                    },
                   ),
                 ],
               ),
@@ -95,13 +118,13 @@ class CalendarHabits extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SelectedDayCubit, DateTime>(
+    return BlocBuilder<SelectedDayCubit, SelectedDay>(
       builder: (context, selectedDay) {
         return TableCalendar(
           locale: locale.toString(),
           firstDay: DateTime.utc(2023, 01, 01),
           lastDay: DateTime.utc(2030, 3, 14),
-          focusedDay: selectedDay,
+          focusedDay: selectedDay.selectedDay,
           pageJumpingEnabled: true,
           calendarFormat: CalendarFormat.week,
           calendarStyle: const CalendarStyle(
@@ -110,8 +133,9 @@ class CalendarHabits extends StatelessWidget {
           daysOfWeekStyle: const DaysOfWeekStyle(
             weekendStyle: TextStyle(color: Color(0xFF4F4F4F)),
           ),
+          daysOfWeekHeight: 20,
           selectedDayPredicate: (day) {
-            return isSameDay(selectedDay, day);
+            return isSameDay(selectedDay.selectedDay, day);
           },
           onDaySelected: (selectedDay, focusedDay) {
             context.read<SelectedDayCubit>().changeSelectedDay(selectedDay);
@@ -142,7 +166,8 @@ class CalendarHabits extends StatelessWidget {
             },
             dowBuilder: (context, day) {
               final text = DateFormat.E(locale.toString()).format(day);
-              if (isSameDay(day, selectedDay) || isSameDay(day, selectedDay)) {
+              if (isSameDay(day, selectedDay.selectedDay) ||
+                  isSameDay(day, selectedDay.selectedDay)) {
                 return CalendarDow(day: day, text: text);
               }
               if (isSameDay(day, DateTime.now())) {
@@ -294,117 +319,355 @@ class CalendarDowSameDay extends StatelessWidget {
   }
 }
 
-class HabitItem extends StatefulWidget {
+class HabitItemVisible extends StatelessWidget {
   final String title;
   final String? description;
   final IconData icon;
   final IconData? iconDescription;
-  const HabitItem(
-      {super.key,
-      required this.title,
-      this.description,
-      required this.icon,
-      this.iconDescription});
+  final int index;
+  const HabitItemVisible({
+    super.key,
+    required this.title,
+    this.description,
+    required this.icon,
+    this.iconDescription,
+    required this.index,
+  });
 
-  @override
-  State<HabitItem> createState() => _HabitItemState();
-}
-
-class _HabitItemState extends State<HabitItem> {
-  bool isExpanded = false;
   @override
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
-    return Padding(
-      padding: defaultTopPadding / 2,
-      child: AnimatedSize(
-        duration: const Duration(milliseconds: 300),
-        child: Container(
+    return Row(
+      children: [
+        Container(
           decoration: BoxDecoration(
-            color: themeData.colorScheme.surfaceVariant,
+            color: themeData.colorScheme.primary,
             borderRadius: BorderRadius.circular(15),
           ),
-          padding: const EdgeInsets.all(15),
+          padding: const EdgeInsets.all(10),
+          child: Icon(
+            icon,
+            color: themeData.colorScheme.onPrimary,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: themeData.colorScheme.primary,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    padding: const EdgeInsets.all(10),
-                    child: Icon(
-                      widget.icon,
-                      color: themeData.colorScheme.onPrimary,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              Text(
+                title,
+                style: themeData.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w800,
+                  fontSize: 18,
+                ),
+              ),
+              description == null
+                  ? Container()
+                  : Row(
                       children: [
+                        Icon(
+                          iconDescription,
+                          color: themeData.colorScheme.primary,
+                          size: 15,
+                        ),
+                        const SizedBox(width: 3),
                         Text(
-                          widget.title,
-                          style: themeData.textTheme.bodyMedium?.copyWith(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 18,
+                          description!,
+                          style: themeData.textTheme.bodySmall?.copyWith(
+                            color: themeData.colorScheme.primary,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
-                        widget.description == null
-                            ? Container()
-                            : Row(
-                                children: [
-                                  Icon(
-                                    widget.iconDescription,
-                                    color: themeData.colorScheme.primary,
-                                    size: 15,
-                                  ),
-                                  Text(
-                                    widget.description!,
-                                    style:
-                                        themeData.textTheme.bodySmall?.copyWith(
-                                      color: themeData.colorScheme.primary,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
                       ],
                     ),
-                  ),
-                  const Spacer(),
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        // TODO: CHANGE TO BLOC
-                        isExpanded = !isExpanded;
-                      });
-                    },
-                    icon: Icon(
-                      isExpanded ? Icons.arrow_drop_up : Icons.arrow_drop_down,
-                      color: themeData.colorScheme.primary,
-                    ),
-                  ),
-                ],
-              ),
-              AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                child: isExpanded
-                    ? Text(
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisl eget nunc aliquam aliquet. Nulla facilisi. Donec euismod, nisl eget aliquet aliquam, nisl nisl aliquam nisl, vitae aliquam nisl nisl vitae nisl. Donec euismod, nisl eget aliquet aliquam, nisl nisl aliquam nisl, vitae aliquam nisl nisl vitae nisl.',
-                        key: Key('test'),
-                      )
-                    : Container(),
-              ),
             ],
+          ),
+        ),
+        const Spacer(),
+        BlocBuilder<SelectedDayCubit, SelectedDay>(
+          builder: (context, state) {
+            return IconButton(
+              onPressed: () {
+                context.read<SelectedDayCubit>().changeHabitExpanded(index);
+              },
+              icon: Icon(
+                state.habits[index].isExpanded
+                    ? Icons.arrow_drop_up
+                    : Icons.arrow_drop_down,
+                color: themeData.colorScheme.primary,
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class MarkAsDoneButton extends StatefulWidget {
+  final int index;
+  final SelectedDay state;
+  const MarkAsDoneButton({super.key, required this.index, required this.state});
+
+  @override
+  State<MarkAsDoneButton> createState() => _MarkAsDoneButtonState();
+}
+
+class _MarkAsDoneButtonState extends State<MarkAsDoneButton> {
+  late ConfettiController confettiController;
+  Path drawStar(Size size) {
+    double degToRad(double deg) => deg * (pi / 180.0);
+
+    const numberOfPoints = 5;
+    final halfWidth = size.width / 2;
+    final externalRadius = halfWidth;
+    final internalRadius = halfWidth / 2.5;
+    final degreesPerStep = degToRad(360 / numberOfPoints);
+    final halfDegreesPerStep = degreesPerStep / 2;
+    final path = Path();
+    final fullAngle = degToRad(360);
+    path.moveTo(size.width, halfWidth);
+
+    for (double step = 0; step < fullAngle; step += degreesPerStep) {
+      path.lineTo(halfWidth + externalRadius * cos(step),
+          halfWidth + externalRadius * sin(step));
+      path.lineTo(halfWidth + internalRadius * cos(step + halfDegreesPerStep),
+          halfWidth + internalRadius * sin(step + halfDegreesPerStep));
+    }
+    path.close();
+    return path;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    confettiController =
+        ConfettiController(duration: const Duration(seconds: 1));
+  }
+
+  @override
+  void dispose() {
+    confettiController.dispose();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    ThemeData themeData = Theme.of(context);
+    return Stack(
+      children: [
+        ElevatedButton(
+          onPressed: () {
+            if (!widget.state.habits[widget.index].isDone) {
+              confettiController.play();
+            }
+            context.read<SelectedDayCubit>().changeHabitDone(widget.index);
+          },
+          child: Text(
+            widget.state.habits[widget.index].isDone
+                ? tr.undo_habit
+                : tr.mark_as_done,
+            style: themeData.textTheme.bodyMedium?.copyWith(
+              color: themeData.colorScheme.primary,
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        ConfettiWidget(
+          confettiController: confettiController,
+          blastDirectionality: BlastDirectionality.explosive,
+          shouldLoop: false,
+          colors: [
+            themeData.colorScheme.primary,
+          ],
+          createParticlePath: drawStar,
+        ),
+      ],
+    );
+  }
+}
+
+class HabitItemCalendarItem extends StatelessWidget {
+  final DateTime day;
+  const HabitItemCalendarItem({super.key, required this.day});
+
+  @override
+  Widget build(BuildContext context) {
+    ThemeData themeData = Theme.of(context);
+    String dayString = DateFormat.d(locale.toString()).format(day);
+    return Center(
+      child: Container(
+        decoration: BoxDecoration(
+          color: events.contains(day)
+              ? themeData.colorScheme.primary
+              : themeData.colorScheme.surface,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        margin: const EdgeInsets.all(2),
+        child: Center(
+          child: Text(
+            dayString,
+            style: themeData.textTheme.bodyMedium?.copyWith(
+              color: events.contains(day)
+                  ? themeData.colorScheme.onPrimary
+                  : themeData.colorScheme.primary,
+              fontWeight: FontWeight.w600,
+              fontSize: 15,
+            ),
           ),
         ),
       ),
     );
   }
 }
+
+class EditHabitButton extends StatelessWidget {
+  const EditHabitButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    ThemeData themeData = Theme.of(context);
+    return TextButton(
+      onPressed: () {},
+      child: Text(
+        tr.edit,
+        style: themeData.textTheme.bodyMedium?.copyWith(
+          color: themeData.colorScheme.primary,
+          fontSize: 15,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+}
+
+class HabitItemExpanded extends StatelessWidget {
+  final int index;
+  const HabitItemExpanded({super.key, required this.index});
+
+  @override
+  Widget build(BuildContext context) {
+    ThemeData themeData = Theme.of(context);
+    return BlocBuilder<SelectedDayCubit, SelectedDay>(
+      builder: (context, state) {
+        return AnimatedSize(
+          duration: const Duration(milliseconds: 800),
+          curve: Curves.easeInOut,
+          child: state.habits[index].isExpanded
+              ? Column(
+                  children: [
+                    const Divider(),
+                    TableCalendar(
+                      rowHeight: 35,
+                      startingDayOfWeek: StartingDayOfWeek.monday,
+                      locale: locale.toString(),
+                      firstDay: DateTime.utc(2023, 01, 01),
+                      lastDay: DateTime.now(),
+                      focusedDay: // now - month
+                          DateTime.now().subtract(
+                        const Duration(days: 31),
+                      ),
+                      headerVisible: false,
+                      calendarStyle: const CalendarStyle(
+                        cellMargin: EdgeInsets.all(2),
+                      ),
+                      availableGestures: AvailableGestures.horizontalSwipe,
+                      daysOfWeekHeight: 20,
+                      calendarBuilders: CalendarBuilders(
+                        outsideBuilder: (context, day, focusedDay) {
+                          return HabitItemCalendarItem(day: day);
+                        },
+                        disabledBuilder: (context, day, focusedDay) {
+                          return Container();
+                        },
+                        defaultBuilder: (context, day, focusedDay) {
+                          return HabitItemCalendarItem(day: day);
+                        },
+                        todayBuilder: (context, day, focusedDay) {
+                          return HabitItemCalendarItem(day: day);
+                        },
+                      ),
+                    ),
+                    const Divider(),
+                    Container(
+                      child: MediaQuery.of(context).size.width > 350
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                  const EditHabitButton(),
+                                  MarkAsDoneButton(index: index, state: state)
+                                ])
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                const EditHabitButton(),
+                                MarkAsDoneButton(index: index, state: state)
+                              ],
+                            ),
+                    ),
+                  ],
+                )
+              : Container(),
+        );
+      },
+    );
+  }
+}
+
+class HabitItem extends StatelessWidget {
+  final String title;
+  final String? description;
+  final IconData icon;
+  final IconData? iconDescription;
+  final int index;
+  const HabitItem({
+    super.key,
+    required this.title,
+    this.description,
+    required this.icon,
+    this.iconDescription,
+    required this.index,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    ThemeData themeData = Theme.of(context);
+    return Padding(
+      padding: defaultTopPadding / 2,
+      child: AnimatedSize(
+        duration: const Duration(milliseconds: 500),
+        child: GestureDetector(
+          onTap: () {
+            context.read<SelectedDayCubit>().changeHabitExpanded(index);
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              color: themeData.colorScheme.surfaceVariant,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            padding: const EdgeInsets.all(15),
+            child: Column(
+              children: [
+                HabitItemVisible(
+                  title: title,
+                  description: description,
+                  icon: icon,
+                  iconDescription: iconDescription,
+                  index: index,
+                ),
+                HabitItemExpanded(index: index),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 // Martin Gogołowicz || SobGOG || 01.09.2023
-// Last edit: Martin Gogołowicz || SobGOG || 01.09.2023
+// Last edit: Martin Gogołowicz || SobGOG || 02.09.2023

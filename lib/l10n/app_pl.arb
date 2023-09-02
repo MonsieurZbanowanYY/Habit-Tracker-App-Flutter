@@ -4,9 +4,14 @@
   "app_name": "HabitMate",
   "auth_brand_quote_text1": "Śledź, zarządzaj i ulepszaj swoje nawyki ",
   "auth_declaration_text": "Kontynuując, zgadzasz się na nasze ",
+  "edit": "Edytuj",
+  "finished": "Wykonane",
   "for_a_better_life": "dla lepszego życia",
+  "mark_as_done": "Oznacz jako wykonane",
   "or_sign_in_later": "LUB ZALOGUJ SIĘ PÓŹNIEJ",
   "privacy_policy": "Polityka prywatności",
   "terms_of_service": "Warunki korzystania",
+  "to_do": "Do wykonania",
+  "undo_habit": "Anuluj wykonanie",
   "welcome_to": "Witaj w"
 }
