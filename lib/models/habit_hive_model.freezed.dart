@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'habit_model.dart';
+part of 'habit_hive_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,44 +15,52 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$Habit {
-  String get id => throw _privateConstructorUsedError;
+mixin _$HabitHive {
+  @HiveField(0)
   String get name => throw _privateConstructorUsedError;
+  @HiveField(1)
   int get icon => throw _privateConstructorUsedError;
+  @HiveField(2)
   String get frequency => throw _privateConstructorUsedError;
+  @HiveField(3)
   int? get goal => throw _privateConstructorUsedError;
+  @HiveField(4)
   int get streak => throw _privateConstructorUsedError;
+  @HiveField(5)
   List<int> get onlyOn => throw _privateConstructorUsedError;
+  @HiveField(6)
   List<DateTime> get doneOn => throw _privateConstructorUsedError;
-  bool get isExpanded => throw _privateConstructorUsedError;
-  bool get isDone => throw _privateConstructorUsedError;
+  @HiveField(7)
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  @HiveField(8)
+  DateTime get updatedAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $HabitCopyWith<Habit> get copyWith => throw _privateConstructorUsedError;
+  $HabitHiveCopyWith<HabitHive> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $HabitCopyWith<$Res> {
-  factory $HabitCopyWith(Habit value, $Res Function(Habit) then) =
-      _$HabitCopyWithImpl<$Res, Habit>;
+abstract class $HabitHiveCopyWith<$Res> {
+  factory $HabitHiveCopyWith(HabitHive value, $Res Function(HabitHive) then) =
+      _$HabitHiveCopyWithImpl<$Res, HabitHive>;
   @useResult
   $Res call(
-      {String id,
-      String name,
-      int icon,
-      String frequency,
-      int? goal,
-      int streak,
-      List<int> onlyOn,
-      List<DateTime> doneOn,
-      bool isExpanded,
-      bool isDone});
+      {@HiveField(0) String name,
+      @HiveField(1) int icon,
+      @HiveField(2) String frequency,
+      @HiveField(3) int? goal,
+      @HiveField(4) int streak,
+      @HiveField(5) List<int> onlyOn,
+      @HiveField(6) List<DateTime> doneOn,
+      @HiveField(7) DateTime createdAt,
+      @HiveField(8) DateTime updatedAt});
 }
 
 /// @nodoc
-class _$HabitCopyWithImpl<$Res, $Val extends Habit>
-    implements $HabitCopyWith<$Res> {
-  _$HabitCopyWithImpl(this._value, this._then);
+class _$HabitHiveCopyWithImpl<$Res, $Val extends HabitHive>
+    implements $HabitHiveCopyWith<$Res> {
+  _$HabitHiveCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -62,7 +70,6 @@ class _$HabitCopyWithImpl<$Res, $Val extends Habit>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
     Object? name = null,
     Object? icon = null,
     Object? frequency = null,
@@ -70,14 +77,10 @@ class _$HabitCopyWithImpl<$Res, $Val extends Habit>
     Object? streak = null,
     Object? onlyOn = null,
     Object? doneOn = null,
-    Object? isExpanded = null,
-    Object? isDone = null,
+    Object? createdAt = null,
+    Object? updatedAt = null,
   }) {
     return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -106,47 +109,48 @@ class _$HabitCopyWithImpl<$Res, $Val extends Habit>
           ? _value.doneOn
           : doneOn // ignore: cast_nullable_to_non_nullable
               as List<DateTime>,
-      isExpanded: null == isExpanded
-          ? _value.isExpanded
-          : isExpanded // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isDone: null == isDone
-          ? _value.isDone
-          : isDone // ignore: cast_nullable_to_non_nullable
-              as bool,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$_HabitCopyWith<$Res> implements $HabitCopyWith<$Res> {
-  factory _$$_HabitCopyWith(_$_Habit value, $Res Function(_$_Habit) then) =
-      __$$_HabitCopyWithImpl<$Res>;
+abstract class _$$_HabitHiveCopyWith<$Res> implements $HabitHiveCopyWith<$Res> {
+  factory _$$_HabitHiveCopyWith(
+          _$_HabitHive value, $Res Function(_$_HabitHive) then) =
+      __$$_HabitHiveCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {String id,
-      String name,
-      int icon,
-      String frequency,
-      int? goal,
-      int streak,
-      List<int> onlyOn,
-      List<DateTime> doneOn,
-      bool isExpanded,
-      bool isDone});
+      {@HiveField(0) String name,
+      @HiveField(1) int icon,
+      @HiveField(2) String frequency,
+      @HiveField(3) int? goal,
+      @HiveField(4) int streak,
+      @HiveField(5) List<int> onlyOn,
+      @HiveField(6) List<DateTime> doneOn,
+      @HiveField(7) DateTime createdAt,
+      @HiveField(8) DateTime updatedAt});
 }
 
 /// @nodoc
-class __$$_HabitCopyWithImpl<$Res> extends _$HabitCopyWithImpl<$Res, _$_Habit>
-    implements _$$_HabitCopyWith<$Res> {
-  __$$_HabitCopyWithImpl(_$_Habit _value, $Res Function(_$_Habit) _then)
+class __$$_HabitHiveCopyWithImpl<$Res>
+    extends _$HabitHiveCopyWithImpl<$Res, _$_HabitHive>
+    implements _$$_HabitHiveCopyWith<$Res> {
+  __$$_HabitHiveCopyWithImpl(
+      _$_HabitHive _value, $Res Function(_$_HabitHive) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
     Object? name = null,
     Object? icon = null,
     Object? frequency = null,
@@ -154,14 +158,10 @@ class __$$_HabitCopyWithImpl<$Res> extends _$HabitCopyWithImpl<$Res, _$_Habit>
     Object? streak = null,
     Object? onlyOn = null,
     Object? doneOn = null,
-    Object? isExpanded = null,
-    Object? isDone = null,
+    Object? createdAt = null,
+    Object? updatedAt = null,
   }) {
-    return _then(_$_Habit(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
+    return _then(_$_HabitHive(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -190,49 +190,52 @@ class __$$_HabitCopyWithImpl<$Res> extends _$HabitCopyWithImpl<$Res, _$_Habit>
           ? _value._doneOn
           : doneOn // ignore: cast_nullable_to_non_nullable
               as List<DateTime>,
-      isExpanded: null == isExpanded
-          ? _value.isExpanded
-          : isExpanded // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isDone: null == isDone
-          ? _value.isDone
-          : isDone // ignore: cast_nullable_to_non_nullable
-              as bool,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_Habit implements _Habit {
-  const _$_Habit(
-      {required this.id,
-      required this.name,
-      required this.icon,
-      required this.frequency,
-      required this.goal,
-      required this.streak,
-      required final List<int> onlyOn,
-      required final List<DateTime> doneOn,
-      required this.isExpanded,
-      required this.isDone})
+class _$_HabitHive implements _HabitHive {
+  const _$_HabitHive(
+      {@HiveField(0) required this.name,
+      @HiveField(1) required this.icon,
+      @HiveField(2) required this.frequency,
+      @HiveField(3) required this.goal,
+      @HiveField(4) required this.streak,
+      @HiveField(5) required final List<int> onlyOn,
+      @HiveField(6) required final List<DateTime> doneOn,
+      @HiveField(7) required this.createdAt,
+      @HiveField(8) required this.updatedAt})
       : _onlyOn = onlyOn,
         _doneOn = doneOn;
 
   @override
-  final String id;
-  @override
+  @HiveField(0)
   final String name;
   @override
+  @HiveField(1)
   final int icon;
   @override
+  @HiveField(2)
   final String frequency;
   @override
+  @HiveField(3)
   final int? goal;
   @override
+  @HiveField(4)
   final int streak;
   final List<int> _onlyOn;
   @override
+  @HiveField(5)
   List<int> get onlyOn {
     if (_onlyOn is EqualUnmodifiableListView) return _onlyOn;
     // ignore: implicit_dynamic_type
@@ -241,6 +244,7 @@ class _$_Habit implements _Habit {
 
   final List<DateTime> _doneOn;
   @override
+  @HiveField(6)
   List<DateTime> get doneOn {
     if (_doneOn is EqualUnmodifiableListView) return _doneOn;
     // ignore: implicit_dynamic_type
@@ -248,21 +252,22 @@ class _$_Habit implements _Habit {
   }
 
   @override
-  final bool isExpanded;
+  @HiveField(7)
+  final DateTime createdAt;
   @override
-  final bool isDone;
+  @HiveField(8)
+  final DateTime updatedAt;
 
   @override
   String toString() {
-    return 'Habit(id: $id, name: $name, icon: $icon, frequency: $frequency, goal: $goal, streak: $streak, onlyOn: $onlyOn, doneOn: $doneOn, isExpanded: $isExpanded, isDone: $isDone)';
+    return 'HabitHive(name: $name, icon: $icon, frequency: $frequency, goal: $goal, streak: $streak, onlyOn: $onlyOn, doneOn: $doneOn, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Habit &&
-            (identical(other.id, id) || other.id == id) &&
+            other is _$_HabitHive &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.icon, icon) || other.icon == icon) &&
             (identical(other.frequency, frequency) ||
@@ -271,15 +276,15 @@ class _$_Habit implements _Habit {
             (identical(other.streak, streak) || other.streak == streak) &&
             const DeepCollectionEquality().equals(other._onlyOn, _onlyOn) &&
             const DeepCollectionEquality().equals(other._doneOn, _doneOn) &&
-            (identical(other.isExpanded, isExpanded) ||
-                other.isExpanded == isExpanded) &&
-            (identical(other.isDone, isDone) || other.isDone == isDone));
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      id,
       name,
       icon,
       frequency,
@@ -287,51 +292,57 @@ class _$_Habit implements _Habit {
       streak,
       const DeepCollectionEquality().hash(_onlyOn),
       const DeepCollectionEquality().hash(_doneOn),
-      isExpanded,
-      isDone);
+      createdAt,
+      updatedAt);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_HabitCopyWith<_$_Habit> get copyWith =>
-      __$$_HabitCopyWithImpl<_$_Habit>(this, _$identity);
+  _$$_HabitHiveCopyWith<_$_HabitHive> get copyWith =>
+      __$$_HabitHiveCopyWithImpl<_$_HabitHive>(this, _$identity);
 }
 
-abstract class _Habit implements Habit {
-  const factory _Habit(
-      {required final String id,
-      required final String name,
-      required final int icon,
-      required final String frequency,
-      required final int? goal,
-      required final int streak,
-      required final List<int> onlyOn,
-      required final List<DateTime> doneOn,
-      required final bool isExpanded,
-      required final bool isDone}) = _$_Habit;
+abstract class _HabitHive implements HabitHive {
+  const factory _HabitHive(
+      {@HiveField(0) required final String name,
+      @HiveField(1) required final int icon,
+      @HiveField(2) required final String frequency,
+      @HiveField(3) required final int? goal,
+      @HiveField(4) required final int streak,
+      @HiveField(5) required final List<int> onlyOn,
+      @HiveField(6) required final List<DateTime> doneOn,
+      @HiveField(7) required final DateTime createdAt,
+      @HiveField(8) required final DateTime updatedAt}) = _$_HabitHive;
 
   @override
-  String get id;
-  @override
+  @HiveField(0)
   String get name;
   @override
+  @HiveField(1)
   int get icon;
   @override
+  @HiveField(2)
   String get frequency;
   @override
+  @HiveField(3)
   int? get goal;
   @override
+  @HiveField(4)
   int get streak;
   @override
+  @HiveField(5)
   List<int> get onlyOn;
   @override
+  @HiveField(6)
   List<DateTime> get doneOn;
   @override
-  bool get isExpanded;
+  @HiveField(7)
+  DateTime get createdAt;
   @override
-  bool get isDone;
+  @HiveField(8)
+  DateTime get updatedAt;
   @override
   @JsonKey(ignore: true)
-  _$$_HabitCopyWith<_$_Habit> get copyWith =>
+  _$$_HabitHiveCopyWith<_$_HabitHive> get copyWith =>
       throw _privateConstructorUsedError;
 }

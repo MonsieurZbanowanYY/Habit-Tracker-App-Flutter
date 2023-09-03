@@ -16,15 +16,6 @@ final GetIt getIt = GetIt.instance;
 final tr = getIt.get<AppLocalizations>();
 final locale = getIt.get<Locale>();
 const Radius defaultBorderRadius = Radius.circular(15);
-List events = [
-  DateTime.utc(2023, 8, 3),
-  DateTime.utc(2023, 8, 15),
-  DateTime.utc(2023, 8, 28),
-  DateTime.utc(2023, 9, 1),
-  DateTime.utc(2023, 9, 2),
-  DateTime.utc(2023, 9, 4),
-  DateTime.utc(2023, 9, 5),
-];
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -78,13 +69,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   BlocBuilder<SelectedDayCubit, SelectedDay>(
                     builder: (context, selectedDay) {
                       List<Habit> habitsToShow = selectedDay.habits;
-                      habitsToShow = habitsToShow.where((element) {
-                        if (element.onlyOn.isEmpty) {
-                          return true;
-                        }
-                        return element.onlyOn
-                            .contains(selectedDay.selectedDay.weekday);
-                      }).toList();
                       return ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
@@ -93,7 +77,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           Habit habit = habitsToShow[index];
                           return HabitItem(
                             title: habit.name,
-                            icon: habit.icon,
+                            icon: IconData(habit.icon,
+                                fontFamily: 'MaterialIcons'),
                             description: habit.isDone ? tr.finished : tr.to_do,
                             iconDescription:
                                 habit.isDone ? Icons.check_circle : Icons.star,
@@ -137,8 +122,10 @@ class CalendarHabits extends StatelessWidget {
           selectedDayPredicate: (day) {
             return isSameDay(selectedDay.selectedDay, day);
           },
-          onDaySelected: (selectedDay, focusedDay) {
-            context.read<SelectedDayCubit>().changeSelectedDay(selectedDay);
+          onDaySelected: (selectedDay, focusedDay) async {
+            await context
+                .read<SelectedDayCubit>()
+                .changeSelectedDay(selectedDay);
           },
           startingDayOfWeek: StartingDayOfWeek.monday,
           headerStyle: const HeaderStyle(
@@ -146,18 +133,6 @@ class CalendarHabits extends StatelessWidget {
             formatButtonVisible: false,
           ),
           calendarBuilders: CalendarBuilders(
-            outsideBuilder: (context, day, focusedDay) {
-              if (events.contains(day)) {
-                return CalendarEventDay(day: day);
-              }
-              return null;
-            },
-            defaultBuilder: (context, day, focusedDay) {
-              if (events.contains(day)) {
-                return CalendarEventDay(day: day);
-              }
-              return null;
-            },
             todayBuilder: (context, day, focusedDay) {
               return CalendarTodayDay(day: day);
             },
@@ -178,35 +153,6 @@ class CalendarHabits extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class CalendarEventDay extends StatelessWidget {
-  final DateTime day;
-  const CalendarEventDay({super.key, required this.day});
-
-  @override
-  Widget build(BuildContext context) {
-    ThemeData themeData = Theme.of(context);
-    return Center(
-      child: Container(
-        decoration: BoxDecoration(
-          color: themeData.colorScheme.inversePrimary,
-          shape: BoxShape.circle,
-        ),
-        padding: const EdgeInsets.symmetric(
-          vertical: 5,
-          horizontal: 10,
-        ),
-        child: Text(
-          DateFormat.d(locale.toString()).format(day),
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
-        ),
-      ),
     );
   }
 }
@@ -460,11 +406,13 @@ class _MarkAsDoneButtonState extends State<MarkAsDoneButton> {
     return Stack(
       children: [
         ElevatedButton(
-          onPressed: () {
+          onPressed: () async {
             if (!widget.state.habits[widget.index].isDone) {
               confettiController.play();
             }
-            context.read<SelectedDayCubit>().changeHabitDone(widget.index);
+            await context
+                .read<SelectedDayCubit>()
+                .changeHabitDone(widget.index);
           },
           child: Text(
             widget.state.habits[widget.index].isDone
@@ -493,7 +441,9 @@ class _MarkAsDoneButtonState extends State<MarkAsDoneButton> {
 
 class HabitItemCalendarItem extends StatelessWidget {
   final DateTime day;
-  const HabitItemCalendarItem({super.key, required this.day});
+  final List<DateTime> doneOn;
+  const HabitItemCalendarItem(
+      {super.key, required this.day, required this.doneOn});
 
   @override
   Widget build(BuildContext context) {
@@ -502,7 +452,7 @@ class HabitItemCalendarItem extends StatelessWidget {
     return Center(
       child: Container(
         decoration: BoxDecoration(
-          color: events.contains(day)
+          color: doneOn.contains(day)
               ? themeData.colorScheme.primary
               : themeData.colorScheme.surface,
           borderRadius: BorderRadius.circular(10),
@@ -512,7 +462,7 @@ class HabitItemCalendarItem extends StatelessWidget {
           child: Text(
             dayString,
             style: themeData.textTheme.bodyMedium?.copyWith(
-              color: events.contains(day)
+              color: doneOn.contains(day)
                   ? themeData.colorScheme.onPrimary
                   : themeData.colorScheme.primary,
               fontWeight: FontWeight.w600,
@@ -551,13 +501,13 @@ class HabitItemExpanded extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData themeData = Theme.of(context);
     return BlocBuilder<SelectedDayCubit, SelectedDay>(
       builder: (context, state) {
+        Habit habit = state.habits[index];
         return AnimatedSize(
           duration: const Duration(milliseconds: 800),
           curve: Curves.easeInOut,
-          child: state.habits[index].isExpanded
+          child: habit.isExpanded
               ? Column(
                   children: [
                     const Divider(),
@@ -579,16 +529,19 @@ class HabitItemExpanded extends StatelessWidget {
                       daysOfWeekHeight: 20,
                       calendarBuilders: CalendarBuilders(
                         outsideBuilder: (context, day, focusedDay) {
-                          return HabitItemCalendarItem(day: day);
+                          return HabitItemCalendarItem(
+                              day: day, doneOn: habit.doneOn);
                         },
                         disabledBuilder: (context, day, focusedDay) {
                           return Container();
                         },
                         defaultBuilder: (context, day, focusedDay) {
-                          return HabitItemCalendarItem(day: day);
+                          return HabitItemCalendarItem(
+                              day: day, doneOn: habit.doneOn);
                         },
                         todayBuilder: (context, day, focusedDay) {
-                          return HabitItemCalendarItem(day: day);
+                          return HabitItemCalendarItem(
+                              day: day, doneOn: habit.doneOn);
                         },
                       ),
                     ),
@@ -670,4 +623,4 @@ class HabitItem extends StatelessWidget {
 }
 
 // Martin Gogołowicz || SobGOG || 01.09.2023
-// Last edit: Martin Gogołowicz || SobGOG || 02.09.2023
+// Last edit: Martin Gogołowicz || SobGOG || 03.09.2023

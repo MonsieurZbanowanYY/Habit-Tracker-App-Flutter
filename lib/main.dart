@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:habitmate/config/theme_data.dart';
+import 'package:habitmate/models/habit_hive_model.dart';
 import 'package:habitmate/screens/home_screen.dart';
 import 'package:habitmate/screens/login_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -10,6 +11,7 @@ import 'package:go_router/go_router.dart';
 
 void main() async {
   await Hive.initFlutter();
+  Hive.registerAdapter(HabitHiveAdapter());
   runApp(const App());
 }
 
@@ -75,4 +77,4 @@ class AppState extends State<App> {
 // https://www.linkedin.com/company/sobgog/
 // https://www.linkedin.com/in/martin-gogolowicz/
 // Martin Gogołowicz || SobGOG || 30.08.2023
-// Last edit: Martin Gogołowicz || SobGOG || 01.09.2023
+// Last edit: Martin Gogołowicz || SobGOG || 03.09.2023
