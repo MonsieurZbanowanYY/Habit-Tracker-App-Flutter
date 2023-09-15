@@ -19,20 +19,22 @@ mixin _$HabitHive {
   @HiveField(0)
   String get name => throw _privateConstructorUsedError;
   @HiveField(1)
-  int get icon => throw _privateConstructorUsedError;
+  String get description => throw _privateConstructorUsedError;
   @HiveField(2)
-  String get frequency => throw _privateConstructorUsedError;
+  int get icon => throw _privateConstructorUsedError;
   @HiveField(3)
-  int? get goal => throw _privateConstructorUsedError;
+  String get frequency => throw _privateConstructorUsedError;
   @HiveField(4)
-  int get streak => throw _privateConstructorUsedError;
+  int? get goal => throw _privateConstructorUsedError;
   @HiveField(5)
-  List<int> get onlyOn => throw _privateConstructorUsedError;
+  int get streak => throw _privateConstructorUsedError;
   @HiveField(6)
-  List<DateTime> get doneOn => throw _privateConstructorUsedError;
+  List<int> get onlyOn => throw _privateConstructorUsedError;
   @HiveField(7)
-  DateTime get createdAt => throw _privateConstructorUsedError;
+  List<DateTime> get doneOn => throw _privateConstructorUsedError;
   @HiveField(8)
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  @HiveField(9)
   DateTime get updatedAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -47,14 +49,15 @@ abstract class $HabitHiveCopyWith<$Res> {
   @useResult
   $Res call(
       {@HiveField(0) String name,
-      @HiveField(1) int icon,
-      @HiveField(2) String frequency,
-      @HiveField(3) int? goal,
-      @HiveField(4) int streak,
-      @HiveField(5) List<int> onlyOn,
-      @HiveField(6) List<DateTime> doneOn,
-      @HiveField(7) DateTime createdAt,
-      @HiveField(8) DateTime updatedAt});
+      @HiveField(1) String description,
+      @HiveField(2) int icon,
+      @HiveField(3) String frequency,
+      @HiveField(4) int? goal,
+      @HiveField(5) int streak,
+      @HiveField(6) List<int> onlyOn,
+      @HiveField(7) List<DateTime> doneOn,
+      @HiveField(8) DateTime createdAt,
+      @HiveField(9) DateTime updatedAt});
 }
 
 /// @nodoc
@@ -71,6 +74,7 @@ class _$HabitHiveCopyWithImpl<$Res, $Val extends HabitHive>
   @override
   $Res call({
     Object? name = null,
+    Object? description = null,
     Object? icon = null,
     Object? frequency = null,
     Object? goal = freezed,
@@ -84,6 +88,10 @@ class _$HabitHiveCopyWithImpl<$Res, $Val extends HabitHive>
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String,
       icon: null == icon
           ? _value.icon
@@ -130,14 +138,15 @@ abstract class _$$_HabitHiveCopyWith<$Res> implements $HabitHiveCopyWith<$Res> {
   @useResult
   $Res call(
       {@HiveField(0) String name,
-      @HiveField(1) int icon,
-      @HiveField(2) String frequency,
-      @HiveField(3) int? goal,
-      @HiveField(4) int streak,
-      @HiveField(5) List<int> onlyOn,
-      @HiveField(6) List<DateTime> doneOn,
-      @HiveField(7) DateTime createdAt,
-      @HiveField(8) DateTime updatedAt});
+      @HiveField(1) String description,
+      @HiveField(2) int icon,
+      @HiveField(3) String frequency,
+      @HiveField(4) int? goal,
+      @HiveField(5) int streak,
+      @HiveField(6) List<int> onlyOn,
+      @HiveField(7) List<DateTime> doneOn,
+      @HiveField(8) DateTime createdAt,
+      @HiveField(9) DateTime updatedAt});
 }
 
 /// @nodoc
@@ -152,6 +161,7 @@ class __$$_HabitHiveCopyWithImpl<$Res>
   @override
   $Res call({
     Object? name = null,
+    Object? description = null,
     Object? icon = null,
     Object? frequency = null,
     Object? goal = freezed,
@@ -165,6 +175,10 @@ class __$$_HabitHiveCopyWithImpl<$Res>
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String,
       icon: null == icon
           ? _value.icon
@@ -207,14 +221,15 @@ class __$$_HabitHiveCopyWithImpl<$Res>
 class _$_HabitHive implements _HabitHive {
   const _$_HabitHive(
       {@HiveField(0) required this.name,
-      @HiveField(1) required this.icon,
-      @HiveField(2) required this.frequency,
-      @HiveField(3) required this.goal,
-      @HiveField(4) required this.streak,
-      @HiveField(5) required final List<int> onlyOn,
-      @HiveField(6) required final List<DateTime> doneOn,
-      @HiveField(7) required this.createdAt,
-      @HiveField(8) required this.updatedAt})
+      @HiveField(1) required this.description,
+      @HiveField(2) required this.icon,
+      @HiveField(3) required this.frequency,
+      @HiveField(4) required this.goal,
+      @HiveField(5) required this.streak,
+      @HiveField(6) required final List<int> onlyOn,
+      @HiveField(7) required final List<DateTime> doneOn,
+      @HiveField(8) required this.createdAt,
+      @HiveField(9) required this.updatedAt})
       : _onlyOn = onlyOn,
         _doneOn = doneOn;
 
@@ -223,19 +238,22 @@ class _$_HabitHive implements _HabitHive {
   final String name;
   @override
   @HiveField(1)
-  final int icon;
+  final String description;
   @override
   @HiveField(2)
-  final String frequency;
+  final int icon;
   @override
   @HiveField(3)
-  final int? goal;
+  final String frequency;
   @override
   @HiveField(4)
+  final int? goal;
+  @override
+  @HiveField(5)
   final int streak;
   final List<int> _onlyOn;
   @override
-  @HiveField(5)
+  @HiveField(6)
   List<int> get onlyOn {
     if (_onlyOn is EqualUnmodifiableListView) return _onlyOn;
     // ignore: implicit_dynamic_type
@@ -244,7 +262,7 @@ class _$_HabitHive implements _HabitHive {
 
   final List<DateTime> _doneOn;
   @override
-  @HiveField(6)
+  @HiveField(7)
   List<DateTime> get doneOn {
     if (_doneOn is EqualUnmodifiableListView) return _doneOn;
     // ignore: implicit_dynamic_type
@@ -252,15 +270,15 @@ class _$_HabitHive implements _HabitHive {
   }
 
   @override
-  @HiveField(7)
+  @HiveField(8)
   final DateTime createdAt;
   @override
-  @HiveField(8)
+  @HiveField(9)
   final DateTime updatedAt;
 
   @override
   String toString() {
-    return 'HabitHive(name: $name, icon: $icon, frequency: $frequency, goal: $goal, streak: $streak, onlyOn: $onlyOn, doneOn: $doneOn, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'HabitHive(name: $name, description: $description, icon: $icon, frequency: $frequency, goal: $goal, streak: $streak, onlyOn: $onlyOn, doneOn: $doneOn, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -269,6 +287,8 @@ class _$_HabitHive implements _HabitHive {
         (other.runtimeType == runtimeType &&
             other is _$_HabitHive &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
             (identical(other.icon, icon) || other.icon == icon) &&
             (identical(other.frequency, frequency) ||
                 other.frequency == frequency) &&
@@ -286,6 +306,7 @@ class _$_HabitHive implements _HabitHive {
   int get hashCode => Object.hash(
       runtimeType,
       name,
+      description,
       icon,
       frequency,
       goal,
@@ -305,41 +326,45 @@ class _$_HabitHive implements _HabitHive {
 abstract class _HabitHive implements HabitHive {
   const factory _HabitHive(
       {@HiveField(0) required final String name,
-      @HiveField(1) required final int icon,
-      @HiveField(2) required final String frequency,
-      @HiveField(3) required final int? goal,
-      @HiveField(4) required final int streak,
-      @HiveField(5) required final List<int> onlyOn,
-      @HiveField(6) required final List<DateTime> doneOn,
-      @HiveField(7) required final DateTime createdAt,
-      @HiveField(8) required final DateTime updatedAt}) = _$_HabitHive;
+      @HiveField(1) required final String description,
+      @HiveField(2) required final int icon,
+      @HiveField(3) required final String frequency,
+      @HiveField(4) required final int? goal,
+      @HiveField(5) required final int streak,
+      @HiveField(6) required final List<int> onlyOn,
+      @HiveField(7) required final List<DateTime> doneOn,
+      @HiveField(8) required final DateTime createdAt,
+      @HiveField(9) required final DateTime updatedAt}) = _$_HabitHive;
 
   @override
   @HiveField(0)
   String get name;
   @override
   @HiveField(1)
-  int get icon;
+  String get description;
   @override
   @HiveField(2)
-  String get frequency;
+  int get icon;
   @override
   @HiveField(3)
-  int? get goal;
+  String get frequency;
   @override
   @HiveField(4)
-  int get streak;
+  int? get goal;
   @override
   @HiveField(5)
-  List<int> get onlyOn;
+  int get streak;
   @override
   @HiveField(6)
-  List<DateTime> get doneOn;
+  List<int> get onlyOn;
   @override
   @HiveField(7)
-  DateTime get createdAt;
+  List<DateTime> get doneOn;
   @override
   @HiveField(8)
+  DateTime get createdAt;
+  @override
+  @HiveField(9)
   DateTime get updatedAt;
   @override
   @JsonKey(ignore: true)

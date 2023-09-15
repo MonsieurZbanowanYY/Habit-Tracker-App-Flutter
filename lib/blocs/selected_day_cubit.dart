@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
 import 'package:habitmate/models/habit_hive_model.dart';
 import 'package:habitmate/models/habit_model.dart';
 import 'package:habitmate/models/selected_day_model.dart';
@@ -22,28 +21,7 @@ class SelectedDayCubit extends Cubit<SelectedDay> {
     List<Habit> habits = [];
     Box<HabitHive> box = await Hive.openBox('habits');
     try {
-      if (box.isEmpty) {
-        // TODO: add a habit creation screen
-        // code below is just for testing purposes
-        final DateTime now = DateTime.now();
-        await HabitRepository(box).addHabit(
-          now.millisecondsSinceEpoch.toString(),
-          HabitHive(
-            name: 'Go for a walk',
-            icon: Icons.directions_walk.codePoint,
-            frequency: 'daily',
-            goal: null,
-            streak: 0,
-            onlyOn: [],
-            doneOn: [DateTime.utc(DateTime.now().year, DateTime.now().month)],
-            createdAt: now,
-            updatedAt: now,
-          ),
-        );
-        // end of testing code
-      } else {
-        habits = HabitRepository(box).getHabitsForDate(newDay);
-      }
+      habits = HabitRepository(box).getHabitsForDate(newDay);
     } catch (e) {
       // add error handling to crashlytics
     } finally {
@@ -101,4 +79,4 @@ class SelectedDayCubit extends Cubit<SelectedDay> {
   }
 }
 // Martin Gogołowicz || SobGOG || 01.09.2023
-// Last edit: Martin Gogołowicz || SobGOG || 03.09.2023
+// Last edit: Martin Gogołowicz || SobGOG || 14.09.2023

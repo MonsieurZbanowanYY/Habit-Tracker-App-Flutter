@@ -141,7 +141,7 @@ class SignInButtons extends StatelessWidget {
           child: Center(
             child: SignInCustomButton(
               type: ButtonType.googleDark,
-              onPressed: () => {},
+              onPressed: () => {context.go('/home')},
             ),
           ),
         ),
@@ -150,7 +150,7 @@ class SignInButtons extends StatelessWidget {
           child: Center(
             child: SignInCustomButton(
               type: ButtonType.appleDark,
-              onPressed: () => {},
+              onPressed: () => {context.go('/home')},
             ),
           ),
         ),
@@ -231,4 +231,4 @@ class AuthDeclaration extends StatelessWidget {
 }
 
 // Martin Gogołowicz || SobGOG || 30.08.2023
-// Last edit: Martin Gogołowicz || SobGOG || 01.09.2023
+// Last edit: Martin Gogołowicz || SobGOG || 14.09.2023

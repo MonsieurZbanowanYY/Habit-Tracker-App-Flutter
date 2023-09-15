@@ -3,10 +3,12 @@ import 'dart:math';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:habitmate/blocs/selected_day_cubit.dart';
 import 'package:habitmate/config/constraint.dart';
 import 'package:habitmate/models/habit_model.dart';
 import 'package:habitmate/models/selected_day_model.dart';
+import 'package:habitmate/repositories/icons_repository.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:get_it/get_it.dart';
@@ -37,12 +39,18 @@ class _HomeScreenState extends State<HomeScreen> {
           elevation: 0,
           leading: IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.menu),
+            icon: const Icon(Icons.settings),
           ),
           actions: [
             IconButton(
               onPressed: () {},
-              icon: const Icon(Icons.settings),
+              icon: const Icon(Icons.event_note),
+            ),
+            IconButton(
+              onPressed: () {
+                context.push('/habits/new');
+              },
+              icon: const Icon(Icons.add_circle),
             ),
           ],
           title: Text(
@@ -72,13 +80,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       return ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: habitsToShow.length,
+                        itemCount:
+                            habitsToShow.isEmpty ? 1 : habitsToShow.length,
                         itemBuilder: (context, index) {
+                          if (habitsToShow.isEmpty) {
+                            return const NoHabitsFound();
+                          }
+
                           Habit habit = habitsToShow[index];
                           return HabitItem(
                             title: habit.name,
-                            icon: IconData(habit.icon,
-                                fontFamily: 'MaterialIcons'),
+                            icon: IconsRepository().getIconData(habit.icon),
                             description: habit.isDone ? tr.finished : tr.to_do,
                             iconDescription:
                                 habit.isDone ? Icons.check_circle : Icons.star,
@@ -259,6 +271,31 @@ class CalendarDowSameDay extends StatelessWidget {
         style: TextStyle(
           color: themeData.colorScheme.primary,
           fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+}
+
+class NoHabitsFound extends StatelessWidget {
+  const NoHabitsFound({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    ThemeData themeData = Theme.of(context);
+    return Container(
+      decoration: BoxDecoration(
+        color: themeData.colorScheme.primary,
+        borderRadius: BorderRadius.circular(15),
+      ),
+      padding: const EdgeInsets.all(15),
+      margin: const EdgeInsets.only(top: 20),
+      child: Text(
+        tr.no_habits,
+        textAlign: TextAlign.center,
+        style: themeData.textTheme.bodyMedium?.copyWith(
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
         ),
       ),
     );
@@ -476,13 +513,16 @@ class HabitItemCalendarItem extends StatelessWidget {
 }
 
 class EditHabitButton extends StatelessWidget {
-  const EditHabitButton({super.key});
+  final String id;
+  const EditHabitButton({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
     return TextButton(
-      onPressed: () {},
+      onPressed: () {
+        context.push('/habits/$id');
+      },
       child: Text(
         tr.edit,
         style: themeData.textTheme.bodyMedium?.copyWith(
@@ -510,6 +550,20 @@ class HabitItemExpanded extends StatelessWidget {
           child: habit.isExpanded
               ? Column(
                   children: [
+                    habit.description == '' ? Container() : const Divider(),
+                    habit.description == ''
+                        ? Container()
+                        : Text(
+                            habit.description,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                          ),
                     const Divider(),
                     TableCalendar(
                       rowHeight: 35,
@@ -518,9 +572,7 @@ class HabitItemExpanded extends StatelessWidget {
                       firstDay: DateTime.utc(2023, 01, 01),
                       lastDay: DateTime.now(),
                       focusedDay: // now - month
-                          DateTime.now().subtract(
-                        const Duration(days: 31),
-                      ),
+                          DateTime.now(),
                       headerVisible: false,
                       calendarStyle: const CalendarStyle(
                         cellMargin: EdgeInsets.all(2),
@@ -531,9 +583,6 @@ class HabitItemExpanded extends StatelessWidget {
                         outsideBuilder: (context, day, focusedDay) {
                           return HabitItemCalendarItem(
                               day: day, doneOn: habit.doneOn);
-                        },
-                        disabledBuilder: (context, day, focusedDay) {
-                          return Container();
                         },
                         defaultBuilder: (context, day, focusedDay) {
                           return HabitItemCalendarItem(
@@ -551,13 +600,13 @@ class HabitItemExpanded extends StatelessWidget {
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                  const EditHabitButton(),
+                                  EditHabitButton(id: habit.id),
                                   MarkAsDoneButton(index: index, state: state)
                                 ])
                           : Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                const EditHabitButton(),
+                                EditHabitButton(id: habit.id),
                                 MarkAsDoneButton(index: index, state: state)
                               ],
                             ),
@@ -623,4 +672,4 @@ class HabitItem extends StatelessWidget {
 }
 
 // Martin Gogołowicz || SobGOG || 01.09.2023
-// Last edit: Martin Gogołowicz || SobGOG || 03.09.2023
+// Last edit: Martin Gogołowicz || SobGOG || 15.09.2023

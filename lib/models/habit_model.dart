@@ -5,6 +5,7 @@ part 'habit_model.freezed.dart';
 class Habit with _$Habit {
   const factory Habit({
     required String id,
+    required String description,
     required String name,
     required int icon,
     required String frequency,
@@ -17,4 +18,4 @@ class Habit with _$Habit {
   }) = _Habit;
 }
 // Martin Gogołowicz || SobGOG || 02.09.2023
-// Last edit: Martin Gogołowicz || SobGOG || 03.09.2023
+// Last edit: Martin Gogołowicz || SobGOG || 14.09.2023

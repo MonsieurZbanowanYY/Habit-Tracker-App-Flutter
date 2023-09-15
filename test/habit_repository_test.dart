@@ -16,6 +16,7 @@ void main() async {
     DateTime today = DateTime.now();
     HabitHive habitHive1 = HabitHive(
       name: 'Habit 1',
+      description: 'Habit description',
       icon: Icons.accessibility.codePoint,
       frequency: 'daily',
       goal: null,
@@ -34,6 +35,7 @@ void main() async {
 
     HabitHive habitHive2 = HabitHive(
       name: 'Habit 2',
+      description: 'Habit description',
       icon: Icons.auto_fix_normal.codePoint,
       frequency: 'daily',
       goal: null,
@@ -73,6 +75,7 @@ void main() async {
   test('convertHabitHiveToHabit converts HabitHive to Habit', () {
     HabitHive habitHive = HabitHive(
       name: 'Habit',
+      description: 'Habit description',
       icon: Icons.accessibility.codePoint,
       frequency: 'daily',
       goal: null,
@@ -97,6 +100,7 @@ void main() async {
     Habit habit = Habit(
       id: now.millisecondsSinceEpoch.toString(),
       name: 'Habit',
+      description: 'Habit description',
       icon: Icons.accessibility.codePoint,
       frequency: 'daily',
       goal: null,
@@ -116,4 +120,4 @@ void main() async {
   });
 }
 // Martin Gogołowicz || SobGOG || 03.09.2023
-// Last edit: Martin Gogołowicz || SobGOG || 03.09.2023
+// Last edit: Martin Gogołowicz || SobGOG || 14.09.2023

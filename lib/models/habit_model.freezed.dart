@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$Habit {
   String get id => throw _privateConstructorUsedError;
+  String get description => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   int get icon => throw _privateConstructorUsedError;
   String get frequency => throw _privateConstructorUsedError;
@@ -38,6 +39,7 @@ abstract class $HabitCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
+      String description,
       String name,
       int icon,
       String frequency,
@@ -63,6 +65,7 @@ class _$HabitCopyWithImpl<$Res, $Val extends Habit>
   @override
   $Res call({
     Object? id = null,
+    Object? description = null,
     Object? name = null,
     Object? icon = null,
     Object? frequency = null,
@@ -77,6 +80,10 @@ class _$HabitCopyWithImpl<$Res, $Val extends Habit>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
           ? _value.name
@@ -126,6 +133,7 @@ abstract class _$$_HabitCopyWith<$Res> implements $HabitCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
+      String description,
       String name,
       int icon,
       String frequency,
@@ -147,6 +155,7 @@ class __$$_HabitCopyWithImpl<$Res> extends _$HabitCopyWithImpl<$Res, _$_Habit>
   @override
   $Res call({
     Object? id = null,
+    Object? description = null,
     Object? name = null,
     Object? icon = null,
     Object? frequency = null,
@@ -161,6 +170,10 @@ class __$$_HabitCopyWithImpl<$Res> extends _$HabitCopyWithImpl<$Res, _$_Habit>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
           ? _value.name
@@ -207,6 +220,7 @@ class __$$_HabitCopyWithImpl<$Res> extends _$HabitCopyWithImpl<$Res, _$_Habit>
 class _$_Habit implements _Habit {
   const _$_Habit(
       {required this.id,
+      required this.description,
       required this.name,
       required this.icon,
       required this.frequency,
@@ -221,6 +235,8 @@ class _$_Habit implements _Habit {
 
   @override
   final String id;
+  @override
+  final String description;
   @override
   final String name;
   @override
@@ -254,7 +270,7 @@ class _$_Habit implements _Habit {
 
   @override
   String toString() {
-    return 'Habit(id: $id, name: $name, icon: $icon, frequency: $frequency, goal: $goal, streak: $streak, onlyOn: $onlyOn, doneOn: $doneOn, isExpanded: $isExpanded, isDone: $isDone)';
+    return 'Habit(id: $id, description: $description, name: $name, icon: $icon, frequency: $frequency, goal: $goal, streak: $streak, onlyOn: $onlyOn, doneOn: $doneOn, isExpanded: $isExpanded, isDone: $isDone)';
   }
 
   @override
@@ -263,6 +279,8 @@ class _$_Habit implements _Habit {
         (other.runtimeType == runtimeType &&
             other is _$_Habit &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.icon, icon) || other.icon == icon) &&
             (identical(other.frequency, frequency) ||
@@ -280,6 +298,7 @@ class _$_Habit implements _Habit {
   int get hashCode => Object.hash(
       runtimeType,
       id,
+      description,
       name,
       icon,
       frequency,
@@ -300,6 +319,7 @@ class _$_Habit implements _Habit {
 abstract class _Habit implements Habit {
   const factory _Habit(
       {required final String id,
+      required final String description,
       required final String name,
       required final int icon,
       required final String frequency,
@@ -312,6 +332,8 @@ abstract class _Habit implements Habit {
 
   @override
   String get id;
+  @override
+  String get description;
   @override
   String get name;
   @override

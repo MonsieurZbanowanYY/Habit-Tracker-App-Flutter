@@ -58,6 +58,7 @@ class HabitRepository {
     return Habit(
       id: habitHive.createdAt.millisecondsSinceEpoch.toString(),
       name: habitHive.name,
+      description: habitHive.description,
       icon: habitHive.icon,
       frequency: habitHive.frequency,
       goal: habitHive.goal,
@@ -72,6 +73,7 @@ class HabitRepository {
   HabitHive convertHabitToHabitHive(Habit habit, DateTime now) {
     return HabitHive(
       name: habit.name,
+      description: habit.description,
       icon: habit.icon,
       frequency: habit.frequency,
       goal: habit.goal,
@@ -83,3 +85,5 @@ class HabitRepository {
     );
   }
 }
+// Martin Gogołowicz || SobGOG || 03.09.2023
+// Last edit: Martin Gogołowicz || SobGOG || 14.09.2023

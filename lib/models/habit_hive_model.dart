@@ -8,15 +8,16 @@ part 'habit_hive_model.g.dart';
 class HabitHive with _$HabitHive {
   const factory HabitHive({
     @HiveField(0) required String name,
-    @HiveField(1) required int icon,
-    @HiveField(2) required String frequency,
-    @HiveField(3) required int? goal,
-    @HiveField(4) required int streak,
-    @HiveField(5) required List<int> onlyOn,
-    @HiveField(6) required List<DateTime> doneOn,
-    @HiveField(7) required DateTime createdAt,
-    @HiveField(8) required DateTime updatedAt,
+    @HiveField(1) required String description,
+    @HiveField(2) required int icon,
+    @HiveField(3) required String frequency,
+    @HiveField(4) required int? goal,
+    @HiveField(5) required int streak,
+    @HiveField(6) required List<int> onlyOn,
+    @HiveField(7) required List<DateTime> doneOn,
+    @HiveField(8) required DateTime createdAt,
+    @HiveField(9) required DateTime updatedAt,
   }) = _HabitHive;
 }
 // Martin Gogołowicz || SobGOG || 03.09.2023
-// Last edit: Martin Gogołowicz || SobGOG || 03.09.2023
+// Last edit: Martin Gogołowicz || SobGOG || 14.09.2023

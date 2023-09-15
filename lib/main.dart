@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
+import 'package:habitmate/blocs/new_habit_cubit.dart';
 import 'package:habitmate/config/theme_data.dart';
 import 'package:habitmate/models/habit_hive_model.dart';
+import 'package:habitmate/screens/habit_screen.dart';
 import 'package:habitmate/screens/home_screen.dart';
 import 'package:habitmate/screens/login_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -31,6 +34,21 @@ class AppState extends State<App> {
     routes: [
       GoRoute(path: '/', builder: (context, state) => const LoginScreen()),
       GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
+      GoRoute(
+        path: '/habits/new',
+        builder: (context, state) => BlocProvider(
+            create: (context) => NewHabitCubit(),
+            child: const HabitScreen(id: null)),
+      ),
+      GoRoute(
+        path: '/habits/:id',
+        builder: (context, state) => BlocProvider(
+          create: (context) => NewHabitCubit(),
+          child: HabitScreen(
+            id: state.pathParameters['id'],
+          ),
+        ),
+      )
     ],
   );
 
@@ -77,4 +95,4 @@ class AppState extends State<App> {
 // https://www.linkedin.com/company/sobgog/
 // https://www.linkedin.com/in/martin-gogolowicz/
 // Martin Gogołowicz || SobGOG || 30.08.2023
-// Last edit: Martin Gogołowicz || SobGOG || 03.09.2023
+// Last edit: Martin Gogołowicz || SobGOG || 14.09.2023

@@ -18,38 +18,41 @@ class HabitHiveAdapter extends TypeAdapter<HabitHive> {
     };
     return HabitHive(
       name: fields[0] as String,
-      icon: fields[1] as int,
-      frequency: fields[2] as String,
-      goal: fields[3] as int?,
-      streak: fields[4] as int,
-      onlyOn: (fields[5] as List).cast<int>(),
-      doneOn: (fields[6] as List).cast<DateTime>(),
-      createdAt: fields[7] as DateTime,
-      updatedAt: fields[8] as DateTime,
+      description: fields[1] as String,
+      icon: fields[2] as int,
+      frequency: fields[3] as String,
+      goal: fields[4] as int?,
+      streak: fields[5] as int,
+      onlyOn: (fields[6] as List).cast<int>(),
+      doneOn: (fields[7] as List).cast<DateTime>(),
+      createdAt: fields[8] as DateTime,
+      updatedAt: fields[9] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, HabitHive obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
-      ..write(obj.icon)
+      ..write(obj.description)
       ..writeByte(2)
-      ..write(obj.frequency)
+      ..write(obj.icon)
       ..writeByte(3)
-      ..write(obj.goal)
+      ..write(obj.frequency)
       ..writeByte(4)
-      ..write(obj.streak)
+      ..write(obj.goal)
       ..writeByte(5)
-      ..write(obj.onlyOn)
+      ..write(obj.streak)
       ..writeByte(6)
-      ..write(obj.doneOn)
+      ..write(obj.onlyOn)
       ..writeByte(7)
-      ..write(obj.createdAt)
+      ..write(obj.doneOn)
       ..writeByte(8)
+      ..write(obj.createdAt)
+      ..writeByte(9)
       ..write(obj.updatedAt);
   }
 
