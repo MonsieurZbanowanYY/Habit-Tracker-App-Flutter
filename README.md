@@ -1,12 +1,11 @@
 # Flutter Habit Tracker App UI + Backend
 ### Flutter 3.14.0-0.2.pre Null Safety
 Beautiful Habit Tracker App with support for both dark and light modes. Created by Martin Gogołowicz. <br/>You can find Features and dependencies below!
-
 ## How the app looks:
-<img width="320" alt="habit1" src="https://github.com/MonsieurZbanowanYY/HabitMate/assets/81767518/8f638846-203a-4992-9c22-24c90e746a87">
-<img width="320" alt="habit2" src="https://github.com/MonsieurZbanowanYY/HabitMate/assets/81767518/b5892d4b-0cab-4751-9efc-bdccd1d6515b">
-<img width="320" alt="habit3" src="https://github.com/MonsieurZbanowanYY/HabitMate/assets/81767518/79dec45d-67b9-481b-9e43-b3af5b0eb5dc">
-<img width="320" alt="habit4" src="https://github.com/MonsieurZbanowanYY/HabitMate/assets/81767518/00d4e2fb-6605-471b-80f3-e57996c6009d">
+<img width="320" alt="habit1" src="https://github.com/MonsieurZbanowanYY/Habit-Tracker-App-Flutter/assets/81767518/2acb33f8-7bd9-47b9-8a79-6209d684867a">
+<img width="320" alt="habit2" src="https://github.com/MonsieurZbanowanYY/Habit-Tracker-App-Flutter/assets/81767518/09e97654-d4dc-4044-a04f-1b1399dd7ebb">
+<img width="320" alt="habit3" src="https://github.com/MonsieurZbanowanYY/Habit-Tracker-App-Flutter/assets/81767518/8e236b8e-c6a7-4928-b397-5af64f74a294">
+<img width="320" alt="habit4" src="https://github.com/MonsieurZbanowanYY/Habit-Tracker-App-Flutter/assets/81767518/e79847ef-7a4b-4121-8ac9-d75c5a0220c5">
 
 ## Features and dependencies:
 - Dark and Light Mode friendly
