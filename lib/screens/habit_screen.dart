@@ -197,12 +197,45 @@ class HabitTextField extends StatelessWidget {
   }
 }
 
+class HabitIconItem extends StatelessWidget {
+  final int index;
+  final int iconCodePoint;
+  const HabitIconItem(
+      {super.key, required this.index, required this.iconCodePoint});
+
+  @override
+  Widget build(BuildContext context) {
+    ThemeData themeData = Theme.of(context);
+    return GestureDetector(
+      onTap: () {
+        context.read<NewHabitCubit>().setNewHabitIconCodePoint(
+            IconsRepository().getFeaturedIcons()[index]);
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: iconCodePoint == IconsRepository().getFeaturedIcons()[index]
+              ? themeData.colorScheme.primary
+              : themeData.colorScheme.surfaceVariant,
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Icon(
+          IconsRepository().getIconData(
+            IconsRepository().getFeaturedIcons()[index],
+          ),
+          color: iconCodePoint == IconsRepository().getFeaturedIcons()[index]
+              ? themeData.colorScheme.onPrimary
+              : themeData.colorScheme.onSurface,
+        ),
+      ),
+    );
+  }
+}
+
 class HabitIconPicker extends StatelessWidget {
   const HabitIconPicker({super.key});
 
   @override
   Widget build(BuildContext context) {
-    ThemeData themeData = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -220,8 +253,8 @@ class HabitIconPicker extends StatelessWidget {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: IconsRepository().getFeaturedIcons().length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 7,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: MediaQuery.of(context).size.width > 800 ? 13 : 7,
             mainAxisSpacing: 10,
             crossAxisSpacing: 10,
           ),
@@ -235,29 +268,9 @@ class HabitIconPicker extends StatelessWidget {
                         IconsRepository().getFeaturedIcons()[index];
               },
               builder: (context, state) {
-                return GestureDetector(
-                  onTap: () {
-                    context.read<NewHabitCubit>().setNewHabitIconCodePoint(
-                        IconsRepository().getFeaturedIcons()[index]);
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: state.iconCodePoint ==
-                              IconsRepository().getFeaturedIcons()[index]
-                          ? themeData.colorScheme.primary
-                          : themeData.colorScheme.surfaceVariant,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Icon(
-                      IconsRepository().getIconData(
-                        IconsRepository().getFeaturedIcons()[index],
-                      ),
-                      color: state.iconCodePoint ==
-                              IconsRepository().getFeaturedIcons()[index]
-                          ? themeData.colorScheme.onPrimary
-                          : themeData.colorScheme.onSurface,
-                    ),
-                  ),
+                return HabitIconItem(
+                  index: index,
+                  iconCodePoint: state.iconCodePoint,
                 );
               },
             );
