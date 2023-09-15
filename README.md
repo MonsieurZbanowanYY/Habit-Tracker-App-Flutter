@@ -1,16 +1,48 @@
-# habitmate
+# Flutter Habit Tracker App UI + Backend
+### Flutter 3.14.0-0.2.pre Null Safety
+Beautiful Habit Tracker App with support for both dark and light modes. Created by Martin Gogołowicz. <br/>You can find Features and dependencies below!
 
-"A new Flutter project."
+## How the app looks:
+<img width="320" alt="habit1" src="https://github.com/MonsieurZbanowanYY/HabitMate/assets/81767518/8f638846-203a-4992-9c22-24c90e746a87">
+<img width="320" alt="habit2" src="https://github.com/MonsieurZbanowanYY/HabitMate/assets/81767518/b5892d4b-0cab-4751-9efc-bdccd1d6515b">
+<img width="320" alt="habit3" src="https://github.com/MonsieurZbanowanYY/HabitMate/assets/81767518/79dec45d-67b9-481b-9e43-b3af5b0eb5dc">
+<img width="320" alt="habit4" src="https://github.com/MonsieurZbanowanYY/HabitMate/assets/81767518/00d4e2fb-6605-471b-80f3-e57996c6009d">
 
-## Getting Started
+## Features and dependencies:
+- Dark and Light Mode friendly
+- Responsive design
+- Add new habit
+- Mark as done
+- View in the built-in calendar (with marked days)
+- Edit habit
+- Delete habit
+- Login screen template
+- Hive to store data locally
+- BloC to manage state
+- Multilanguage support (currently English and Polish - easy to add more)
+- Flex color scheme (easy to change colors)
+- GoRouter for navigation
+- Freezed for data models
+- GetIt for dependency injection
+- Easy to edit
+- Null safety
 
-This project is a starting point for a Flutter application.
+## Please leave a ⭐ if you like it 💙
 
-A few resources to get you started if this is your first Flutter project:
+## How to run:
+- Clone this repo
+- Run `flutter pub get`
+- Run `flutter run`
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Add more languages:
+- Add new language code to `supportedLocales` in `main.dart` (for example `Locale('pl', '')`)
+- Add new file to `l10n` with name `app_LANGUAGE_CODE.arb` (for example `app_pl.arb`)
+- Fill the file with translations (you can copy the content from `app_en.arb` and translate it)
+- Run `flutter pub get`
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Find bugs or want to improve something?
+Feel free to open an issue or create a pull request.
+
+## Find me on:
+- [LinkedIn](https://www.linkedin.com/in/martin-gogolowicz)
+- [GitHub](https://github.com/MonsieurZbanowanYY)
